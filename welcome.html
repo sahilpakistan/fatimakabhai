@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">  
+<head>  
+  <meta charset="UTF-8" />  
+  <meta name="viewport" content="width=device-width, initial-scale=1" />  
+  <title>Welcome Fatima</title>  
+  <style>  
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+
+    body { margin: 0; overflow: hidden; background: #000; font-family: Arial, sans-serif; color: white; }
+    .container.demo3 { width: 100vw; height: 100vh; position: relative; }
+    canvas#water { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    .rain { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://tympanus.net/Development/RainEffect/img/rain.png'); opacity: 0.3; }
+
+    .custom-text {
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      font-family: 'Pacifico', cursive;
+      font-size: 30px;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.6);
+      z-index: 10;
+    }
+    .custom-text .main-text {
+      margin-bottom: 15px;
+    }
+    .custom-text .fatima-text {
+      font-family: 'Great Vibes', cursive;
+      font-size: 36px;
+      color: #ffd700;
+      text-shadow: 0 0 8px #ffd700;
+    }
+    .custom-text .sub-text {
+      font-family: 'Dancing Script', cursive;
+      font-size: 20px;
+      margin-top: 8px;
+      color: #f0f0f0;
+    }
+
+    /* News ticker styles */
+    .news-ticker {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      overflow: hidden;
+      white-space: nowrap;
+      box-shadow: 0 -2px 10px rgba(255,255,255,0.2);
+      font-family: 'Courier New', monospace;
+      font-size: 18px;
+      color: #ffd700;
+      padding: 10px 0;
+      z-index: 30;
+    }
+    .news-ticker span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: ticker 15s linear infinite;
+    }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+<!doctype html>
+<html lang="en">  
+<head>  
+  <meta charset="UTF-8" />  
+  <meta name="viewport" content="width=device-width, initial-scale=1" />  
+  <title>Welcome Fatima</title>  
+  <style>  
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+
+    body { margin: 0; overflow: hidden; background: #000; font-family: Arial, sans-serif; color: white; }
+    .container.demo3 { width: 100vw; height: 100vh; position: relative; }
+    canvas#water { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    .rain { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://tympanus.net/Development/RainEffect/img/rain.png'); opacity: 0.3; }
+
+    .custom-text {
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      font-family: 'Pacifico', cursive;
+      font-size: 30px;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.6);
+      z-index: 10;
+    }
+    .custom-text .main-text {
+      margin-bottom: 15px;
+    }
+    .custom-text .fatima-text {
+      font-family: 'Great Vibes', cursive;
+      font-size: 36px;
+      color: #ffd700;
+      text-shadow: 0 0 8px #ffd700;
+    }
+    .custom-text .sub-text {
+      font-family: 'Dancing Script', cursive;
+      font-size: 20px;
+      margin-top: 8px;
+      color: #f0f0f0;
+    }
+
+    /* News ticker styles */
+    .news-ticker {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      overflow: hidden;
+      white-space: nowrap;
+      box-shadow: 0 -2px 10px rgba(255,255,255,0.2);
+      font-family: 'Courier New', monospace;
+      font-size: 18px;
+      color: #ffd700;
+      padding: 10px 0;
+      z-index: 30;
+    }
+    .news-ticker span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: ticker 15s linear infinite;
+    }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+  </style>  
+</head>  
+<body>  
+
+  <div id="container" class="container demo3">  
+    <canvas id="water"></canvas>  
+    <div class="rain"></div>  
+
+    <div class="custom-text">
+      <div class="main-text">My sister, she is my janaah, the queen of my heart.<br>
+      Love u my princess ❤️👑✨💖👸</div>
+      <div class="fatima-text">Fatima</div>
+      <div class="sub-text">I Love U Bachaa Regards Haina Sahil</div>
+    </div>
+
+    <div class="news-ticker">
+      <span>Fatima I Love U Bachaa Regards Haina Sahil &nbsp; • &nbsp; Fatima I Love U Bachaa Regards Haina Sahil &nbsp; • &nbsp;</span>
+    </div>
+  </div>
+
+  <script>
+    // Rain animation code (same as index.html)
+    const canvas = document.getElementById('water');  
+    const ctx = canvas.getContext('2d');  
+    let width = canvas.width = window.innerWidth;  
+    let height = canvas.height = window.innerHeight;  
+    const drops = [];  
+
+    for (let i = 0; i < 500; i++) {  
+      drops.push({  
+        x: Math.random() * width,  
+        y: Math.random() * height,  
+        length: Math.random() * 20 + 10,  
+        velocity: Math.random() * 4 + 4  
+      });  
+    }  
+
+    function draw() {  
+      ctx.clearRect(0, 0, width, height);  
+      ctx.strokeStyle = 'rgba(174,194,224,0.5)';  
+      ctx.lineWidth = 1;  
+      ctx.lineCap = 'round';  
+
+      for (let i = 0; i < drops.length; i++) {  
+        const d = drops[i];  
+        ctx.beginPath();  
+        ctx.moveTo(d.x, d.y);  
+        ctx.lineTo(d.x, d.y + d.length);  
+        ctx.stroke();  
+      }  
+
+      move();  
+    }  
+
+    function move() {  
+      for (let i = 0; i < drops.length; i++) {  
+        const d = drops[i];  
+        d.y += d.velocity;  
+        if (d.y > height) {  
+          d.y = -20;  
+          d.x = Math.random() * width;  
+        }  
+      }  
+    }  
+
+    function loop() {  
+      draw();  
+      requestAnimationFrame(loop);  
+    }  
+
+    loop();  
+
+    window.addEventListener('resize', () => {  
+      width = canvas.width = window.innerWidth;  
+      height = canvas.height = window.innerHeight;  
+    });
+  </script>
+</body>  
+</html>￼Enter  </style>  
+</head>  
+<body>  
+
+  <div id="container" class="container demo3">  
+    <canvas id="water"></canvas>  
+    <div class="rain"></div>  
+
+    <div class="custom-text">
+      <div class="main-text">My sister, she is my janaah, the queen of my heart.<br>
+      Love u my princess ❤️👑✨💖👸</div>
+      <div class="fatima-text">Fatima</div>
+      <div class="sub-text">I Love U Bachaa Regards Haina Sahil</div>
+    </div>
+
+    <div class="news-ticker">
+      <span>Fatima I Love U Bachaa Regards Haina Sahil &nbsp; • &nbsp; Fatima I Love U Bachaa Regards Haina Sahil &nbsp; • &nbsp;</span>
+    </div>
+  </div>
+
+  <script>
+    // Rain animation code (same as index.html)
+    const canvas = document.getElementById('water');  
+    const ctx = canvas.getContext('2d');  
+    let width = canvas.width = window.innerWidth;  
+    let height = canvas.height = window.innerHeight;  
+nst drops = [];  
+
+    for (let i = 0; i < 500; i++) {  
+      drops.push({  
+        x: Math.random() * width,  
+        y: Math.random() * height,  
+        length: Math.random() * 20 + 10,  
+        velocity: Math.random() * 4 + 4  
+      });  
+    }  
+
+    function draw() {  
+      ctx.clearRect(0, 0, width, height);  
+      ctx.strokeStyle = 'rgba(174,194,224,0.5)';  
+      ctx.lineWidth = 1;  
+      ctx.lineCap = 'round';  
+
+      for (let i = 0; i < drops.length; i++) {  
+        const d = drops[i];  
+        ctx.beginPath();  
+        ctx.moveTo(d.x, d.y);  
+        ctx.lineTo(d.x, d.y + d.length);  
+        ctx.stroke();  
+      }  
+
+      move();  
